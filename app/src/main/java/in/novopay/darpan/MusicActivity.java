@@ -60,7 +60,7 @@ public class MusicActivity extends ActionBarActivity {
         songphoto = (ImageView) findViewById(R.id.display_image);
 
         Intent intent = getIntent();
-        if(intent!=null) {
+        /*if(intent!=null) {
             MusicApiResponse musicResponse = (MusicApiResponse) intent.getSerializableExtra("MUSICLIST");
             POS = intent.getIntExtra("POS" ,-1);
             mSongName.setText(musicResponse.getResults().getCollection1().get(POS).getSongName().getText());
@@ -68,6 +68,15 @@ public class MusicActivity extends ActionBarActivity {
             Picasso.with(this).load(musicResponse.getResults().getCollection1().get(POS).getImageUrl().getSrc()).into(songphoto);
 
 
+        }*/
+        String songname = intent.getStringExtra("Songname");
+        String artistname = intent.getStringExtra("Artistname");
+        String image = intent.getStringExtra("Image");
+        if(intent!=null)
+        {
+            mSongName.setText(songname);
+            mArtistName.setText(artistname);
+            Picasso.with(this).load(image).into(songphoto);
         }
         if(MusicServices.isMusicPlaying())
             musicHandler.sendEmptyMessage(MESSAGE_WAKE_UP);

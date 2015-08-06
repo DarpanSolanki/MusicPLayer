@@ -37,9 +37,9 @@ public class FirstFragment extends Fragment {
     private List<Music> musicList = new ArrayList<>();
     private MusicAdapter musicAdapter;
     private MusicApiResponse musicResponse;
-    //MusicCursor musicCursorAdaptor;
-    //MusicDatabase musicDbHelper;
-    //SQLiteDatabase musicDb;
+    MusicCursor musicCursorAdaptor;
+    MusicDatabase musicDbHelper;
+    SQLiteDatabase musicDb;
 
 
     @Nullable
@@ -49,16 +49,16 @@ public class FirstFragment extends Fragment {
         View view = inflater.inflate(R.layout.first_fragment, container, false);
         listView = (ListView) view.findViewById(R.id.fragment_first_listview);
 
-        /*musicDbHelper=new MusicDatabase(getActivity());
+        musicDbHelper=new MusicDatabase(getActivity());
 
         musicDb=musicDbHelper.getReadableDatabase();
-        Cursor cursor=musicDb.query(MusicDatabase.Tables.MUSIC, null, null, null, null, null, null);
+        final Cursor cursor=musicDb.query(MusicDatabase.Tables.MUSIC, null, null, null, null, null, null);
         musicCursorAdaptor=new MusicCursor(getActivity(),cursor);
-        listView.setAdapter(musicCursorAdaptor);*/
+        listView.setAdapter(musicCursorAdaptor);
 
 
         // Uncomment for API Stuff
-        MusicAPI.getApi().getMusicList(new Callback<MusicApiResponse>() {
+        /*MusicAPI.getApi().getMusicList(new Callback<MusicApiResponse>() {
 
             @Override
             @DebugLog
@@ -76,6 +76,7 @@ public class FirstFragment extends Fragment {
                 Toast.makeText(getActivity(), "some error"+ error.getResponse().getReason(),Toast.LENGTH_SHORT).show();
             }
         });
+        */
 
        /*MusicSQLiteOpenHelper musicSQLiteOpenHelper = new MusicSQLiteOpenHelper(getActivity());
         SQLiteDatabase sqLiteDatabase = musicSQLiteOpenHelper.getWritableDatabase();
@@ -89,8 +90,11 @@ public class FirstFragment extends Fragment {
                 intent.putExtra(MusicServices.KEY_METHOD, MusicServices.METHOD_PLAY);
                 getActivity().startService(intent);
                 Intent intentActivity = new Intent(getActivity(), MusicActivity.class);
-                intentActivity.putExtra("MUSICLIST",musicResponse);
-                intentActivity.putExtra("POS", position);
+                intentActivity.putExtra("Songname",cursor.getString(cursor.getColumnIndex(MusicDatabase.TableMusic.MUSIC_NAME)));
+                intentActivity.putExtra("Artistname",cursor.getString(cursor.getColumnIndex(MusicDatabase.TableMusic.MUSIC_AUTHOR)));
+                intentActivity.putExtra("Image",cursor.getString(cursor.getColumnIndex(MusicDatabase.TableMusic.MUSIC_IMAGE_URL)));
+                //intentActivity.putExtra("MUSICLIST",musicResponse);
+                //intentActivity.putExtra("POS", position);
                 getActivity().startActivity(intentActivity);
 
             }
@@ -110,4 +114,8 @@ public class FirstFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
 }
